@@ -199,6 +199,16 @@
       font-weight: bold;
       border-radius: 14px;
       cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .btn-dark:hover {
+      background: #020617;
+    }
+
+    .btn-dark:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
     }
 
     .side-card {
@@ -396,29 +406,41 @@
       margin-top: 12px;
     }
 
-    .pay-field {
-      border: 1px solid #dbe3ee;
-      border-radius: 14px;
-      padding: 10px 14px;
-      background: #fff;
-    }
-
-    .pay-field small {
-      display: block;
-      color: #94a3b8;
-      margin-bottom: 4px;
-      font-size: 11px;
-    }
-
-    .pay-field span {
-      color: #334155;
-      font-size: 14px;
-    }
-
     .pay-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
+    }
+
+    .pay-input {
+      width: 100%;
+      height: 48px;
+      border: 1px solid #dbe3ee;
+      border-radius: 14px;
+      padding: 0 14px;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .pay-input.invalid {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.08);
+    }
+
+    .pay-input.valid {
+      border-color: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.08);
+    }
+
+    .field-note {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 4px;
+      padding-left: 4px;
+    }
+
+    .field-error {
+      color: #dc2626;
     }
 
     .success-box {
@@ -637,28 +659,29 @@
                 </p>
 
                 <div class="pay-grid">
-                  <div class="pay-field">
-                    <small>Número de tarjeta</small>
-                    <span>•••• •••• •••• 4242</span>
+                  <div>
+                    <input id="cardNumber" class="pay-input" type="text" inputmode="numeric" placeholder="Número de tarjeta" maxlength="19" />
+                    <div id="cardNumberNote" class="field-note">Ejemplo: 4242 4242 4242 4242</div>
                   </div>
 
                   <div class="pay-row">
-                    <div class="pay-field">
-                      <small>Vencimiento</small>
-                      <span>MM / AA</span>
+                    <div>
+                      <input id="cardExpiry" class="pay-input" type="text" inputmode="numeric" placeholder="MM / AA" maxlength="5" />
+                      <div id="cardExpiryNote" class="field-note">Formato: MM/AA</div>
                     </div>
-                    <div class="pay-field">
-                      <small>CVV</small>
-                      <span>•••</span>
+
+                    <div>
+                      <input id="cardCvv" class="pay-input" type="text" inputmode="numeric" placeholder="CVV" maxlength="4" />
+                      <div id="cardCvvNote" class="field-note">3 o 4 dígitos</div>
                     </div>
                   </div>
 
-                  <div class="pay-field">
-                    <small>Nombre del titular</small>
-                    <span>Como aparece en tu tarjeta</span>
+                  <div>
+                    <input id="cardName" class="pay-input" type="text" placeholder="Nombre del titular" maxlength="50" />
+                    <div id="cardNameNote" class="field-note">Como aparece en tu tarjeta</div>
                   </div>
 
-                  <button id="payNowBtn" class="btn-dark">Pagar ahora</button>
+                  <button id="payNowBtn" class="btn-dark" disabled>Pagar ahora</button>
                 </div>
               </div>
             </div>
@@ -703,13 +726,13 @@
       <div class="side-card">
         <div class="mini">
           <h4>Experiencia de confianza</h4>
-          <p>Ahora el usuario ya ve un método de pago visual integrado dentro del proceso.</p>
-          <p>La experiencia se siente mucho más cercana a un servicio automatizado real.</p>
+          <p>Ahora el usuario ya puede escribir sus datos dentro del checkout visual.</p>
+          <p>Esto hace que la demo se sienta mucho más real y profesional.</p>
         </div>
 
         <div class="mini">
           <h4>Siguiente mejora</h4>
-          <p>En la Fase 4 conectamos esta experiencia con el backend para guardar solicitudes y generar el ID de operación.</p>
+          <p>Después conectamos backend para guardar la solicitud y generar el ID de operación.</p>
         </div>
       </div>
     </section>
@@ -735,6 +758,16 @@
     const restartBtn = document.getElementById('restartBtn');
     const backBtn = document.getElementById('backBtn');
 
+    const cardNumber = document.getElementById('cardNumber');
+    const cardExpiry = document.getElementById('cardExpiry');
+    const cardCvv = document.getElementById('cardCvv');
+    const cardName = document.getElementById('cardName');
+
+    const cardNumberNote = document.getElementById('cardNumberNote');
+    const cardExpiryNote = document.getElementById('cardExpiryNote');
+    const cardCvvNote = document.getElementById('cardCvvNote');
+    const cardNameNote = document.getElementById('cardNameNote');
+
     let selectedOption = null;
     let progressInterval = null;
     let paymentWaitTimeout = null;
@@ -754,6 +787,32 @@
       phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 10);
     });
 
+    cardNumber.addEventListener('input', () => {
+      let value = cardNumber.value.replace(/\D/g, '').slice(0, 16);
+      value = value.replace(/(.{4})/g, '$1 ').trim();
+      cardNumber.value = value;
+      validatePaymentFields();
+    });
+
+    cardExpiry.addEventListener('input', () => {
+      let value = cardExpiry.value.replace(/\D/g, '').slice(0, 4);
+      if (value.length >= 3) {
+        value = value.slice(0, 2) + '/' + value.slice(2);
+      }
+      cardExpiry.value = value;
+      validatePaymentFields();
+    });
+
+    cardCvv.addEventListener('input', () => {
+      cardCvv.value = cardCvv.value.replace(/\D/g, '').slice(0, 4);
+      validatePaymentFields();
+    });
+
+    cardName.addEventListener('input', () => {
+      cardName.value = cardName.value.replace(/\s+/g, ' ').trimStart();
+      validatePaymentFields();
+    });
+
     options.forEach(option => {
       option.addEventListener('click', () => {
         options.forEach(o => o.classList.remove('active'));
@@ -764,6 +823,90 @@
         };
       });
     });
+
+    function markField(input, note, isValid, okText, errorText) {
+      input.classList.remove('valid', 'invalid');
+      note.classList.remove('field-error');
+
+      if (input.value.length === 0) {
+        note.textContent = errorText.includes('Ejemplo') || errorText.includes('Formato') || errorText.includes('dígitos') || errorText.includes('Como')
+          ? errorText
+          : '';
+        return false;
+      }
+
+      if (isValid) {
+        input.classList.add('valid');
+        note.textContent = okText;
+        return true;
+      } else {
+        input.classList.add('invalid');
+        note.classList.add('field-error');
+        note.textContent = errorText;
+        return false;
+      }
+    }
+
+    function validateCardNumber() {
+      const digits = cardNumber.value.replace(/\s/g, '');
+      return markField(
+        cardNumber,
+        cardNumberNote,
+        digits.length >= 15 && digits.length <= 16,
+        'Número válido',
+        'Ingresa 15 o 16 dígitos'
+      );
+    }
+
+    function validateExpiry() {
+      const value = cardExpiry.value;
+      const match = value.match(/^(\d{2})\/(\d{2})$/);
+      let valid = false;
+
+      if (match) {
+        const month = parseInt(match[1], 10);
+        valid = month >= 1 && month <= 12;
+      }
+
+      return markField(
+        cardExpiry,
+        cardExpiryNote,
+        valid,
+        'Vencimiento válido',
+        'Usa formato MM/AA'
+      );
+    }
+
+    function validateCvv() {
+      const digits = cardCvv.value;
+      return markField(
+        cardCvv,
+        cardCvvNote,
+        digits.length === 3 || digits.length === 4,
+        'CVV válido',
+        'Ingresa 3 o 4 dígitos'
+      );
+    }
+
+    function validateName() {
+      const value = cardName.value.trim();
+      return markField(
+        cardName,
+        cardNameNote,
+        value.length >= 5 && value.includes(' '),
+        'Nombre válido',
+        'Ingresa nombre y apellido'
+      );
+    }
+
+    function validatePaymentFields() {
+      const validNumber = validateCardNumber();
+      const validExpiry = validateExpiry();
+      const validCvv = validateCvv();
+      const validName = validateName();
+
+      payNowBtn.disabled = !(validNumber && validExpiry && validCvv && validName);
+    }
 
     function resetSteps() {
       steps.forEach((step, index) => {
@@ -883,6 +1026,28 @@
       }, 3000);
     }
 
+    function resetPaymentFields() {
+      cardNumber.value = '';
+      cardExpiry.value = '';
+      cardCvv.value = '';
+      cardName.value = '';
+
+      [cardNumber, cardExpiry, cardCvv, cardName].forEach(input => {
+        input.classList.remove('valid', 'invalid');
+      });
+
+      cardNumberNote.textContent = 'Ejemplo: 4242 4242 4242 4242';
+      cardExpiryNote.textContent = 'Formato: MM/AA';
+      cardCvvNote.textContent = '3 o 4 dígitos';
+      cardNameNote.textContent = 'Como aparece en tu tarjeta';
+
+      [cardNumberNote, cardExpiryNote, cardCvvNote, cardNameNote].forEach(note => {
+        note.classList.remove('field-error');
+      });
+
+      payNowBtn.disabled = true;
+    }
+
     function resetAll() {
       clearInterval(progressInterval);
       clearTimeout(paymentWaitTimeout);
@@ -892,6 +1057,7 @@
       selectedOption = null;
       options.forEach(o => o.classList.remove('active'));
 
+      resetPaymentFields();
       resetSteps();
       updateProgress(10);
 
