@@ -13,7 +13,7 @@
     }
 
     body {
-      background: linear-gradient(180deg, #0b4dbb 0%, #1565d8 28%, #f4f7fb 28%, #f4f7fb 100%);
+      background: linear-gradient(180deg, #0b4dbb 0%, #1565d8 24%, #f4f7fb 24%, #f4f7fb 100%);
       color: #0f172a;
     }
 
@@ -43,13 +43,13 @@
       font-size: 44px;
       line-height: 1.1;
       margin-bottom: 14px;
-      max-width: 700px;
+      max-width: 720px;
     }
 
     .hero p {
       font-size: 18px;
       color: #dbeafe;
-      max-width: 700px;
+      max-width: 720px;
     }
 
     .grid {
@@ -59,7 +59,7 @@
       margin-top: 30px;
     }
 
-    .card {
+    .card, .mini {
       background: white;
       border-radius: 24px;
       padding: 28px;
@@ -71,7 +71,7 @@
       margin-bottom: 8px;
     }
 
-    .card p.desc {
+    .desc {
       color: #64748b;
       margin-bottom: 24px;
     }
@@ -92,6 +92,12 @@
       padding: 0 16px;
       font-size: 16px;
       margin-bottom: 8px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
     }
 
     .help {
@@ -142,6 +148,12 @@
       box-shadow: 0 8px 20px rgba(37, 99, 235, 0.08);
     }
 
+    .option.active {
+      border-color: #2563eb;
+      background: #eff6ff;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.1);
+    }
+
     .option strong {
       display: block;
       font-size: 18px;
@@ -164,22 +176,21 @@
       font-weight: bold;
       border-radius: 14px;
       cursor: pointer;
+      transition: 0.2s ease;
     }
 
     .btn:hover {
       background: #0a43a1;
     }
 
+    .btn:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+
     .side-card {
       display: grid;
       gap: 18px;
-    }
-
-    .mini {
-      background: white;
-      border-radius: 24px;
-      padding: 22px;
-      box-shadow: 0 20px 40px rgba(17, 24, 39, 0.08);
     }
 
     .mini h4 {
@@ -192,6 +203,205 @@
       line-height: 1.6;
       margin-bottom: 10px;
       font-size: 14px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .loader-wrap {
+      text-align: center;
+    }
+
+    .spinner-shell {
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      background: #eaf2ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .spinner {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 5px solid #2563eb;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loader-title {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .loader-text {
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+
+    .progress-shell {
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 10%;
+      background: #2563eb;
+      border-radius: 999px;
+      transition: width .4s ease;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 22px;
+    }
+
+    .steps {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .step {
+      border: 1px solid #dbe3ee;
+      background: white;
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: .25s ease;
+    }
+
+    .step-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .step.active {
+      background: #eff6ff;
+      border-color: #93c5fd;
+    }
+
+    .step.active .step-number {
+      background: #2563eb;
+      color: white;
+    }
+
+    .step.done {
+      background: #ecfdf5;
+      border-color: #86efac;
+    }
+
+    .step.done .step-number {
+      background: #10b981;
+      color: white;
+    }
+
+    .step-label {
+      font-weight: bold;
+      color: #475569;
+    }
+
+    .step.active .step-label {
+      color: #1d4ed8;
+    }
+
+    .step.done .step-label {
+      color: #047857;
+    }
+
+    .success-box {
+      text-align: center;
+    }
+
+    .success-icon {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: #ecfdf5;
+      color: #10b981;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+      font-size: 52px;
+      font-weight: bold;
+    }
+
+    .success-box h2 {
+      font-size: 34px;
+      margin-bottom: 10px;
+    }
+
+    .success-box p {
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .summary-item {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .summary-item small {
+      display: block;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+
+    .summary-item strong {
+      color: #0f172a;
+      font-size: 16px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      height: 52px;
+      border-radius: 14px;
+      border: 1px solid #cbd5e1;
+      background: white;
+      color: #0f172a;
+      font-weight: bold;
+      cursor: pointer;
     }
 
     @media (max-width: 900px) {
@@ -224,6 +434,19 @@
       .card, .mini {
         padding: 20px;
       }
+
+      .summary {
+        grid-template-columns: 1fr;
+      }
+
+      .btn-row {
+        flex-direction: column;
+      }
+
+      .loader-title,
+      .success-box h2 {
+        font-size: 28px;
+      }
     }
   </style>
 </head>
@@ -234,62 +457,268 @@
       <h1>Recargas Telcel rápidas y seguras</h1>
       <p>
         Ingresa tu número y elige entre recarga de saldo o paquete sin límites
-        con una experiencia visual más profesional y confiable.
+        con una experiencia visual profesional y confiable.
       </p>
     </section>
 
     <section class="grid">
       <div class="card">
-        <h2>Solicita tu recarga</h2>
-        <p class="desc">Captura tu número y selecciona el tipo de recarga que necesitas.</p>
+        <div id="formView">
+          <h2>Solicita tu recarga</h2>
+          <p class="desc">Captura tu número y selecciona el tipo de recarga que necesitas.</p>
 
-        <label>Número Telcel</label>
-        <input type="text" placeholder="Ingresa 10 dígitos" maxlength="10" />
-        <div class="help">Ejemplo: 5547123456</div>
+          <label>Número Telcel</label>
+          <input id="phoneInput" type="text" placeholder="Ingresa 10 dígitos" maxlength="10" />
+          <div class="help">Ejemplo: 7771234567</div>
 
-        <div class="section-title">
-          <h3>Recarga Saldo Telcel</h3>
-          <div class="pill">Montos disponibles</div>
+          <div class="section-title">
+            <h3>Recarga Saldo</h3>
+            <div class="pill">Montos disponibles</div>
+          </div>
+
+          <div class="options">
+            <div class="option" data-label="$50" data-type="Recarga Saldo"><strong>$50</strong><span>Recarga Saldo</span></div>
+            <div class="option" data-label="$100" data-type="Recarga Saldo"><strong>$100</strong><span>Recarga Saldo</span></div>
+            <div class="option" data-label="$200" data-type="Recarga Saldo"><strong>$200</strong><span>Recarga Saldo</span></div>
+            <div class="option" data-label="$300" data-type="Recarga Saldo"><strong>$300</strong><span>Recarga Saldo</span></div>
+            <div class="option" data-label="$500" data-type="Recarga Saldo"><strong>$500</strong><span>Recarga Saldo</span></div>
+          </div>
+
+          <div class="section-title">
+            <h3>Paquete Sin Límites</h3>
+            <div class="pill">Opciones Telcel</div>
+          </div>
+
+          <div class="options">
+            <div class="option" data-label="SL100" data-type="Paquete Sin Límites"><strong>SL100</strong><span>Paquete Sin Límites</span></div>
+            <div class="option" data-label="SL200" data-type="Paquete Sin Límites"><strong>SL200</strong><span>Paquete Sin Límites</span></div>
+            <div class="option" data-label="SL300" data-type="Paquete Sin Límites"><strong>SL300</strong><span>Paquete Sin Límites</span></div>
+            <div class="option" data-label="SL500" data-type="Paquete Sin Límites"><strong>SL500</strong><span>Paquete Sin Límites</span></div>
+            <div class="option" data-label="SL1200" data-type="Paquete Sin Límites"><strong>SL1200</strong><span>Paquete Sin Límites</span></div>
+            <div class="option" data-label="SL2600" data-type="Paquete Sin Límites"><strong>SL2600</strong><span>Paquete Sin Límites</span></div>
+          </div>
+
+          <button id="startBtn" class="btn">Iniciar recarga</button>
         </div>
 
-        <div class="options">
-          <div class="option"><strong>$50</strong><span>Recarga Saldo</span></div>
-          <div class="option"><strong>$100</strong><span>Recarga Saldo</span></div>
-          <div class="option"><strong>$200</strong><span>Recarga Saldo</span></div>
-          <div class="option"><strong>$300</strong><span>Recarga Saldo</span></div>
-          <div class="option"><strong>$500</strong><span>Recarga Saldo</span></div>
+        <div id="processingView" class="hidden">
+          <div class="loader-wrap">
+            <div class="spinner-shell">
+              <div class="spinner"></div>
+            </div>
+            <h2 class="loader-title">Tu solicitud fue enviada</h2>
+            <p class="loader-text">Estamos procesando tu recarga. Esto puede tardar unos segundos.</p>
+          </div>
+
+          <div class="progress-shell">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+
+          <div class="progress-meta">
+            <span>Procesando</span>
+            <span id="progressText">10%</span>
+          </div>
+
+          <div class="steps">
+            <div class="step" id="step0">
+              <div class="step-number">1</div>
+              <div class="step-label">Validando número Telcel</div>
+            </div>
+            <div class="step" id="step1">
+              <div class="step-number">2</div>
+              <div class="step-label">Preparando solicitud</div>
+            </div>
+            <div class="step" id="step2">
+              <div class="step-number">3</div>
+              <div class="step-label">Procesando recarga</div>
+            </div>
+            <div class="step" id="step3">
+              <div class="step-number">4</div>
+              <div class="step-label">Confirmando operación</div>
+            </div>
+          </div>
         </div>
 
-        <div class="section-title">
-          <h3>Paquete Sin Límites</h3>
-          <div class="pill">Opciones Telcel</div>
-        </div>
+        <div id="successView" class="hidden">
+          <div class="success-box">
+            <div class="success-icon">✓</div>
+            <h2>¡Solicitud procesada con éxito!</h2>
+            <p>Tu recarga fue registrada correctamente y el proceso ha finalizado.</p>
 
-        <div class="options">
-          <div class="option"><strong>SL100</strong><span>Paquete Sin Límites</span></div>
-          <div class="option"><strong>SL200</strong><span>Paquete Sin Límites</span></div>
-          <div class="option"><strong>SL300</strong><span>Paquete Sin Límites</span></div>
-          <div class="option"><strong>SL500</strong><span>Paquete Sin Límites</span></div>
-          <div class="option"><strong>SL1200</strong><span>Paquete Sin Límites</span></div>
-          <div class="option"><strong>SL2600</strong><span>Paquete Sin Límites</span></div>
-        </div>
+            <div class="summary">
+              <div class="summary-item">
+                <small>Número</small>
+                <strong id="summaryPhone">-</strong>
+              </div>
+              <div class="summary-item">
+                <small>Recarga seleccionada</small>
+                <strong id="summaryProduct">-</strong>
+              </div>
+            </div>
 
-        <button class="btn">Iniciar recarga</button>
+            <div class="btn-row">
+              <button id="restartBtn" class="btn">Realizar otra recarga</button>
+              <button id="backBtn" class="btn-secondary">Volver al inicio</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="side-card">
         <div class="mini">
           <h4>Experiencia de confianza</h4>
-          <p>Selecciona tu recarga de forma rápida y visualmente clara.</p>
-          <p>El siguiente paso será agregar el flujo de procesamiento y confirmación.</p>
+          <p>Ahora el usuario ya ve un flujo visual real con estados de proceso y confirmación.</p>
+          <p>Esto hace que el servicio se sienta mucho más profesional.</p>
         </div>
 
         <div class="mini">
           <h4>Siguiente mejora</h4>
-          <p>Después de esta versión vamos a montar el loader animado, el proceso de pago y la confirmación de éxito.</p>
+          <p>En la Fase 3 montamos el bloque de método de pago con estilo premium y leyendas de seguridad.</p>
         </div>
       </div>
     </section>
   </div>
+
+  <script>
+    const options = document.querySelectorAll('.option');
+    const phoneInput = document.getElementById('phoneInput');
+    const startBtn = document.getElementById('startBtn');
+
+    const formView = document.getElementById('formView');
+    const processingView = document.getElementById('processingView');
+    const successView = document.getElementById('successView');
+
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+
+    const summaryPhone = document.getElementById('summaryPhone');
+    const summaryProduct = document.getElementById('summaryProduct');
+
+    const restartBtn = document.getElementById('restartBtn');
+    const backBtn = document.getElementById('backBtn');
+
+    let selectedOption = null;
+    let progressInterval = null;
+    let stepInterval = null;
+    let finalTimeout = null;
+
+    const steps = [
+      document.getElementById('step0'),
+      document.getElementById('step1'),
+      document.getElementById('step2'),
+      document.getElementById('step3'),
+    ];
+
+    phoneInput.addEventListener('input', () => {
+      phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 10);
+    });
+
+    options.forEach(option => {
+      option.addEventListener('click', () => {
+        options.forEach(o => o.classList.remove('active'));
+        option.classList.add('active');
+        selectedOption = {
+          label: option.dataset.label,
+          type: option.dataset.type
+        };
+      });
+    });
+
+    function resetSteps() {
+      steps.forEach((step, index) => {
+        step.classList.remove('active', 'done');
+        step.querySelector('.step-number').textContent = index + 1;
+      });
+    }
+
+    function startProcess() {
+      const phone = phoneInput.value.trim();
+
+      if (phone.length !== 10) {
+        alert('Ingresa un número Telcel válido de 10 dígitos.');
+        return;
+      }
+
+      if (!selectedOption) {
+        alert('Selecciona una recarga antes de continuar.');
+        return;
+      }
+
+      formView.classList.add('hidden');
+      successView.classList.add('hidden');
+      processingView.classList.remove('hidden');
+
+      summaryPhone.textContent = phone;
+      summaryProduct.textContent = selectedOption.label + ' · ' + selectedOption.type;
+
+      let progress = 10;
+      let activeStep = 0;
+
+      resetSteps();
+      steps[0].classList.add('active');
+
+      progressBar.style.width = progress + '%';
+      progressText.textContent = progress + '%';
+
+      progressInterval = setInterval(() => {
+        if (progress < 92) {
+          progress += 1;
+          progressBar.style.width = progress + '%';
+          progressText.textContent = progress + '%';
+        }
+      }, 180);
+
+      stepInterval = setInterval(() => {
+        if (activeStep < steps.length - 1) {
+          steps[activeStep].classList.remove('active');
+          steps[activeStep].classList.add('done');
+          steps[activeStep].querySelector('.step-number').textContent = '✓';
+          activeStep += 1;
+          steps[activeStep].classList.add('active');
+        }
+      }, 4000);
+
+      finalTimeout = setTimeout(() => {
+        clearInterval(progressInterval);
+        clearInterval(stepInterval);
+
+        steps.forEach(step => {
+          step.classList.remove('active');
+          step.classList.add('done');
+          step.querySelector('.step-number').textContent = '✓';
+        });
+
+        progressBar.style.width = '100%';
+        progressText.textContent = '100%';
+
+        setTimeout(() => {
+          processingView.classList.add('hidden');
+          successView.classList.remove('hidden');
+        }, 700);
+      }, 16000);
+    }
+
+    function resetAll() {
+      clearInterval(progressInterval);
+      clearInterval(stepInterval);
+      clearTimeout(finalTimeout);
+
+      phoneInput.value = '';
+      selectedOption = null;
+      options.forEach(o => o.classList.remove('active'));
+      resetSteps();
+
+      processingView.classList.add('hidden');
+      successView.classList.add('hidden');
+      formView.classList.remove('hidden');
+
+      progressBar.style.width = '10%';
+      progressText.textContent = '10%';
+    }
+
+    startBtn.addEventListener('click', startProcess);
+    restartBtn.addEventListener('click', resetAll);
+    backBtn.addEventListener('click', resetAll);
+  </script>
 </body>
 </html>
