@@ -380,6 +380,187 @@
       box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
     }
 
+    .card-preview-wrap {
+      perspective: 1200px;
+      margin-bottom: 18px;
+    }
+
+    .card-preview {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      height: 240px;
+      transform-style: preserve-3d;
+      transition: transform .6s ease;
+      margin: 0 auto 10px;
+    }
+
+    .card-preview.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      padding: 22px;
+      backface-visibility: hidden;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.22);
+      color: white;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.22), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(255,255,255,0.18), transparent 25%),
+        linear-gradient(135deg, #0f172a, #1d4ed8 55%, #2563eb);
+    }
+
+    .card-face::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .card-face.back {
+      transform: rotateY(180deg);
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 26%),
+        linear-gradient(135deg, #0f172a, #1e293b 55%, #334155);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 30px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .chip {
+      width: 52px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #f8d57e, #d4a938);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18);
+    }
+
+    .preview-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 24px;
+    }
+
+    .preview-brand .brand-text {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.95);
+    }
+
+    .preview-mc {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .preview-mc .circles {
+      position: relative;
+      width: 30px;
+      height: 18px;
+      display: inline-block;
+    }
+
+    .preview-mc .circles i {
+      position: absolute;
+      top: 0;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      display: block;
+    }
+
+    .preview-mc .circles i:first-child {
+      left: 0;
+      background: #eb001b;
+    }
+
+    .preview-mc .circles i:last-child {
+      right: 0;
+      background: #f79e1b;
+      opacity: 0.95;
+    }
+
+    .preview-number {
+      position: relative;
+      z-index: 1;
+      font-size: 28px;
+      letter-spacing: 2px;
+      font-weight: 700;
+      margin-bottom: 28px;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    }
+
+    .card-bottom {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 14px;
+    }
+
+    .card-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.72);
+      margin-bottom: 6px;
+    }
+
+    .card-value {
+      font-size: 15px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .back-strip {
+      height: 42px;
+      background: #0b1020;
+      margin: 14px -22px 22px;
+    }
+
+    .cvv-box {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .cvv-inner {
+      width: 90px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.9);
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .card-back-note {
+      font-size: 12px;
+      color: rgba(255,255,255,0.78);
+      margin-top: 18px;
+      line-height: 1.5;
+    }
+
     .payment-head {
       display: flex;
       align-items: center;
@@ -655,6 +836,14 @@
         margin-left: 0;
         justify-content: flex-start;
       }
+
+      .card-preview {
+        height: 220px;
+      }
+
+      .preview-number {
+        font-size: 22px;
+      }
     }
   </style>
 </head>
@@ -743,6 +932,42 @@
               <div class="step-label">Método de pago</div>
 
               <div id="paymentBox" class="payment-box hidden">
+                <div class="card-preview-wrap">
+                  <div id="cardPreview" class="card-preview">
+                    <div class="card-face front">
+                      <div class="card-top">
+                        <div class="chip"></div>
+                        <div id="previewBrand" class="preview-brand">
+                          <span class="brand-text">CARD</span>
+                        </div>
+                      </div>
+
+                      <div id="previewNumber" class="preview-number">•••• •••• •••• ••••</div>
+
+                      <div class="card-bottom">
+                        <div>
+                          <div class="card-label">Titular</div>
+                          <div id="previewName" class="card-value">NOMBRE COMPLETO</div>
+                        </div>
+                        <div>
+                          <div class="card-label">Vence</div>
+                          <div id="previewExpiry" class="card-value">MM/AA</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card-face back">
+                      <div class="back-strip"></div>
+                      <div class="cvv-box">
+                        <div id="previewCvv" class="cvv-inner">•••</div>
+                      </div>
+                      <div class="card-back-note">
+                        Tu banco puede solicitar una verificación adicional para confirmar la operación.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="payment-head">
                   <div class="payment-icon">💳</div>
                   <h4>Pago seguro con tarjeta</h4>
@@ -843,8 +1068,8 @@
       <div class="side-card">
         <div class="mini">
           <h4>Experiencia de confianza</h4>
-          <p>Ahora el checkout muestra Visa y Mastercard con detección visual automática.</p>
-          <p>La experiencia se siente mucho más real y premium.</p>
+          <p>Ahora el checkout muestra una tarjeta visual viva que reacciona a lo que el usuario escribe.</p>
+          <p>La experiencia se siente mucho más premium y cercana a una fintech.</p>
         </div>
 
         <div class="mini">
@@ -889,6 +1114,13 @@
     const visaLogo = document.querySelector('.visa');
     const mcLogo = document.querySelector('.mc');
 
+    const cardPreview = document.getElementById('cardPreview');
+    const previewNumber = document.getElementById('previewNumber');
+    const previewName = document.getElementById('previewName');
+    const previewExpiry = document.getElementById('previewExpiry');
+    const previewCvv = document.getElementById('previewCvv');
+    const previewBrand = document.getElementById('previewBrand');
+
     let selectedOption = null;
     let progressInterval = null;
     let paymentWaitTimeout = null;
@@ -913,6 +1145,7 @@
       value = value.replace(/(.{4})/g, '$1 ').trim();
       cardNumber.value = value;
 
+      updateCardPreview();
       detectCardBrand(value);
       validatePaymentFields();
     });
@@ -923,17 +1156,34 @@
         value = value.slice(0, 2) + '/' + value.slice(2);
       }
       cardExpiry.value = value;
+      updateCardPreview();
       validatePaymentFields();
     });
 
     cardCvv.addEventListener('input', () => {
       cardCvv.value = cardCvv.value.replace(/\D/g, '').slice(0, 4);
+      updateCardPreview();
       validatePaymentFields();
     });
 
     cardName.addEventListener('input', () => {
       cardName.value = cardName.value.replace(/\s+/g, ' ').trimStart();
+      updateCardPreview();
       validatePaymentFields();
+    });
+
+    cardCvv.addEventListener('focus', () => {
+      cardPreview.classList.add('flipped');
+    });
+
+    cardCvv.addEventListener('blur', () => {
+      cardPreview.classList.remove('flipped');
+    });
+
+    [cardNumber, cardExpiry, cardName].forEach(input => {
+      input.addEventListener('focus', () => {
+        cardPreview.classList.remove('flipped');
+      });
     });
 
     options.forEach(option => {
@@ -955,9 +1205,20 @@
 
       if (clean.startsWith('4')) {
         visaLogo.classList.add('active');
+        previewBrand.innerHTML = '<span class="brand-text">VISA</span>';
       } else if (/^5[1-5]/.test(clean) || /^2(2[2-9]|[3-6]|7[01])/.test(clean)) {
         mcLogo.classList.add('active');
+        previewBrand.innerHTML = '<span class="preview-mc"><span class="circles"><i></i><i></i></span><span class="brand-text">MC</span></span>';
+      } else {
+        previewBrand.innerHTML = '<span class="brand-text">CARD</span>';
       }
+    }
+
+    function updateCardPreview() {
+      previewNumber.textContent = cardNumber.value || '•••• •••• •••• ••••';
+      previewName.textContent = (cardName.value || 'NOMBRE COMPLETO').toUpperCase();
+      previewExpiry.textContent = cardExpiry.value || 'MM/AA';
+      previewCvv.textContent = cardCvv.value || '•••';
     }
 
     function markField(input, note, isValid, okText, errorText, emptyText) {
@@ -1210,7 +1471,10 @@
 
       visaLogo.classList.remove('active');
       mcLogo.classList.remove('active');
+      previewBrand.innerHTML = '<span class="brand-text">CARD</span>';
 
+      updateCardPreview();
+      cardPreview.classList.remove('flipped');
       payNowBtn.disabled = true;
     }
 
@@ -1233,6 +1497,8 @@
       successView.classList.add('hidden');
       formView.classList.remove('hidden');
     }
+
+    updateCardPreview();
 
     startBtn.addEventListener('click', startProcess);
     payNowBtn.addEventListener('click', continueAfterPayment);
