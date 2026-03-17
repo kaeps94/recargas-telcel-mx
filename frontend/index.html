@@ -211,6 +211,17 @@
       cursor: not-allowed;
     }
 
+    .btn-secondary {
+      width: 100%;
+      height: 52px;
+      border-radius: 14px;
+      border: 1px solid #cbd5e1;
+      background: white;
+      color: #0f172a;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
     .side-card {
       display: grid;
       gap: 18px;
@@ -374,6 +385,7 @@
       align-items: center;
       gap: 10px;
       margin-bottom: 12px;
+      flex-wrap: wrap;
     }
 
     .payment-icon {
@@ -398,6 +410,87 @@
       color: #64748b;
       line-height: 1.6;
       margin-bottom: 10px;
+    }
+
+    .brand-group {
+      margin-left: auto;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .card-logo {
+      min-width: 70px;
+      height: 34px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 10px;
+      opacity: 0.35;
+      transform: scale(1);
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .card-logo.active {
+      opacity: 1;
+      transform: scale(1.06);
+      box-shadow: 0 10px 22px rgba(37, 99, 235, 0.18);
+    }
+
+    .card-logo.visa {
+      background: linear-gradient(135deg, #1a1f71, #2563eb);
+      color: white;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .card-logo.mc {
+      background: #fff;
+      color: #111827;
+      gap: 6px;
+      min-width: 110px;
+      justify-content: flex-start;
+      padding-left: 10px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .mc-circles {
+      position: relative;
+      width: 28px;
+      height: 18px;
+      display: inline-block;
+    }
+
+    .mc-circles i {
+      position: absolute;
+      top: 0;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      display: block;
+    }
+
+    .mc-circles i:first-child {
+      left: 0;
+      background: #eb001b;
+    }
+
+    .mc-circles i:last-child {
+      right: 0;
+      background: #f79e1b;
+      opacity: 0.95;
+    }
+
+    .mc-text {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: lowercase;
+      color: #374151;
+      letter-spacing: 0.2px;
     }
 
     .pay-grid {
@@ -471,6 +564,17 @@
       margin-bottom: 24px;
     }
 
+    .operation-id-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1d4ed8;
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-bottom: 24px;
+      font-weight: bold;
+      text-align: center;
+    }
+
     .summary {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -499,17 +603,6 @@
     .btn-row {
       display: flex;
       gap: 12px;
-    }
-
-    .btn-secondary {
-      width: 100%;
-      height: 52px;
-      border-radius: 14px;
-      border: 1px solid #cbd5e1;
-      background: white;
-      color: #0f172a;
-      font-weight: bold;
-      cursor: pointer;
     }
 
     @media (max-width: 900px) {
@@ -555,6 +648,12 @@
       .loader-title,
       .success-box h2 {
         font-size: 28px;
+      }
+
+      .brand-group {
+        width: 100%;
+        margin-left: 0;
+        justify-content: flex-start;
       }
     }
   </style>
@@ -647,6 +746,20 @@
                 <div class="payment-head">
                   <div class="payment-icon">💳</div>
                   <h4>Pago seguro con tarjeta</h4>
+
+                  <div class="brand-group">
+                    <div class="card-logo visa">
+                      <span>VISA</span>
+                    </div>
+
+                    <div class="card-logo mc">
+                      <span class="mc-circles">
+                        <i></i>
+                        <i></i>
+                      </span>
+                      <span class="mc-text">mastercard</span>
+                    </div>
+                  </div>
                 </div>
 
                 <p>
@@ -704,6 +817,10 @@
             <h2>¡Solicitud procesada con éxito!</h2>
             <p>Tu recarga fue registrada correctamente y el proceso ha finalizado.</p>
 
+            <div class="operation-id-box">
+              ID de operación: <span id="operationIdText">-</span>
+            </div>
+
             <div class="summary">
               <div class="summary-item">
                 <small>Número</small>
@@ -726,13 +843,13 @@
       <div class="side-card">
         <div class="mini">
           <h4>Experiencia de confianza</h4>
-          <p>Ahora el usuario ya puede escribir sus datos dentro del checkout visual.</p>
-          <p>Esto hace que la demo se sienta mucho más real y profesional.</p>
+          <p>Ahora el checkout muestra Visa y Mastercard con detección visual automática.</p>
+          <p>La experiencia se siente mucho más real y premium.</p>
         </div>
 
         <div class="mini">
           <h4>Siguiente mejora</h4>
-          <p>Después conectamos backend para guardar la solicitud y generar el ID de operación.</p>
+          <p>Después conectamos backend real para guardar solicitudes en base de datos y consultar estados.</p>
         </div>
       </div>
     </section>
@@ -754,6 +871,7 @@
 
     const summaryPhone = document.getElementById('summaryPhone');
     const summaryProduct = document.getElementById('summaryProduct');
+    const operationIdText = document.getElementById('operationIdText');
 
     const restartBtn = document.getElementById('restartBtn');
     const backBtn = document.getElementById('backBtn');
@@ -768,12 +886,15 @@
     const cardCvvNote = document.getElementById('cardCvvNote');
     const cardNameNote = document.getElementById('cardNameNote');
 
+    const visaLogo = document.querySelector('.visa');
+    const mcLogo = document.querySelector('.mc');
+
     let selectedOption = null;
     let progressInterval = null;
     let paymentWaitTimeout = null;
     let finishTimeout = null;
-    let currentStep = 0;
     let progress = 10;
+    let currentOperationId = null;
 
     const steps = [
       document.getElementById('step0'),
@@ -791,6 +912,8 @@
       let value = cardNumber.value.replace(/\D/g, '').slice(0, 16);
       value = value.replace(/(.{4})/g, '$1 ').trim();
       cardNumber.value = value;
+
+      detectCardBrand(value);
       validatePaymentFields();
     });
 
@@ -824,14 +947,25 @@
       });
     });
 
-    function markField(input, note, isValid, okText, errorText) {
+    function detectCardBrand(number) {
+      visaLogo.classList.remove('active');
+      mcLogo.classList.remove('active');
+
+      const clean = number.replace(/\s/g, '');
+
+      if (clean.startsWith('4')) {
+        visaLogo.classList.add('active');
+      } else if (/^5[1-5]/.test(clean) || /^2(2[2-9]|[3-6]|7[01])/.test(clean)) {
+        mcLogo.classList.add('active');
+      }
+    }
+
+    function markField(input, note, isValid, okText, errorText, emptyText) {
       input.classList.remove('valid', 'invalid');
       note.classList.remove('field-error');
 
       if (input.value.length === 0) {
-        note.textContent = errorText.includes('Ejemplo') || errorText.includes('Formato') || errorText.includes('dígitos') || errorText.includes('Como')
-          ? errorText
-          : '';
+        note.textContent = emptyText;
         return false;
       }
 
@@ -854,7 +988,8 @@
         cardNumberNote,
         digits.length >= 15 && digits.length <= 16,
         'Número válido',
-        'Ingresa 15 o 16 dígitos'
+        'Ingresa 15 o 16 dígitos',
+        'Ejemplo: 4242 4242 4242 4242'
       );
     }
 
@@ -873,7 +1008,8 @@
         cardExpiryNote,
         valid,
         'Vencimiento válido',
-        'Usa formato MM/AA'
+        'Usa formato MM/AA',
+        'Formato: MM/AA'
       );
     }
 
@@ -884,7 +1020,8 @@
         cardCvvNote,
         digits.length === 3 || digits.length === 4,
         'CVV válido',
-        'Ingresa 3 o 4 dígitos'
+        'Ingresa 3 o 4 dígitos',
+        '3 o 4 dígitos'
       );
     }
 
@@ -895,7 +1032,8 @@
         cardNameNote,
         value.length >= 5 && value.includes(' '),
         'Nombre válido',
-        'Ingresa nombre y apellido'
+        'Ingresa nombre y apellido',
+        'Como aparece en tu tarjeta'
       );
     }
 
@@ -948,9 +1086,34 @@
 
     function moveToPaymentStep() {
       setStepState(1, 'done');
-      currentStep = 2;
       setStepState(2, 'active');
       paymentBox.classList.remove('hidden');
+    }
+
+    function generateOperationId() {
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      const random = Math.random().toString(36).slice(2, 8).toUpperCase();
+      return `RC-${yyyy}${mm}${dd}-${random}`;
+    }
+
+    function saveOrderLocally() {
+      const orders = JSON.parse(localStorage.getItem('recargasOrders') || '[]');
+
+      const order = {
+        operationId: currentOperationId,
+        phone: phoneInput.value.trim(),
+        productLabel: selectedOption.label,
+        productType: selectedOption.type,
+        carrier: 'Telcel',
+        status: 'pagado',
+        createdAt: new Date().toISOString()
+      };
+
+      orders.unshift(order);
+      localStorage.setItem('recargasOrders', JSON.stringify(orders));
     }
 
     function finishProcess() {
@@ -969,16 +1132,18 @@
     }
 
     function continueAfterPayment() {
+      currentOperationId = generateOperationId();
+      operationIdText.textContent = currentOperationId;
+      saveOrderLocally();
+
       paymentBox.classList.add('hidden');
       setStepState(2, 'done');
 
-      currentStep = 3;
       setStepState(3, 'active');
       updateProgress(78);
 
       finishTimeout = setTimeout(() => {
         setStepState(3, 'done');
-        currentStep = 4;
         setStepState(4, 'active');
         updateProgress(92);
 
@@ -1009,7 +1174,6 @@
       summaryProduct.textContent = selectedOption.label + ' · ' + selectedOption.type;
 
       resetSteps();
-      currentStep = 0;
       updateProgress(10);
       setStepState(0, 'active');
 
@@ -1017,7 +1181,6 @@
 
       paymentWaitTimeout = setTimeout(() => {
         setStepState(0, 'done');
-        currentStep = 1;
         setStepState(1, 'active');
 
         setTimeout(() => {
@@ -1045,6 +1208,9 @@
         note.classList.remove('field-error');
       });
 
+      visaLogo.classList.remove('active');
+      mcLogo.classList.remove('active');
+
       payNowBtn.disabled = true;
     }
 
@@ -1055,6 +1221,8 @@
 
       phoneInput.value = '';
       selectedOption = null;
+      currentOperationId = null;
+      operationIdText.textContent = '-';
       options.forEach(o => o.classList.remove('active'));
 
       resetPaymentFields();
