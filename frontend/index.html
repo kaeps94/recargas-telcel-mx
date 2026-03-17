@@ -93,6 +93,7 @@
       font-size: 16px;
       margin-bottom: 8px;
       outline: none;
+      background: white;
     }
 
     input:focus {
@@ -188,6 +189,18 @@
       cursor: not-allowed;
     }
 
+    .btn-dark {
+      width: 100%;
+      height: 50px;
+      border: none;
+      background: #0f172a;
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      border-radius: 14px;
+      cursor: pointer;
+    }
+
     .side-card {
       display: grid;
       gap: 18px;
@@ -261,7 +274,7 @@
       width: 10%;
       background: #2563eb;
       border-radius: 999px;
-      transition: width .4s ease;
+      transition: width .35s ease;
     }
 
     .progress-meta {
@@ -287,6 +300,7 @@
       align-items: center;
       gap: 14px;
       transition: .25s ease;
+      flex-wrap: wrap;
     }
 
     .step-number {
@@ -333,6 +347,78 @@
 
     .step.done .step-label {
       color: #047857;
+    }
+
+    .payment-box {
+      margin-top: 14px;
+      width: 100%;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      background: white;
+      padding: 18px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+    }
+
+    .payment-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .payment-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: #eff6ff;
+      color: #2563eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .payment-box h4 {
+      font-size: 15px;
+      color: #0f172a;
+    }
+
+    .payment-box p {
+      font-size: 12px;
+      color: #64748b;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .pay-grid {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .pay-field {
+      border: 1px solid #dbe3ee;
+      border-radius: 14px;
+      padding: 10px 14px;
+      background: #fff;
+    }
+
+    .pay-field small {
+      display: block;
+      color: #94a3b8;
+      margin-bottom: 4px;
+      font-size: 11px;
+    }
+
+    .pay-field span {
+      color: #334155;
+      font-size: 14px;
+    }
+
+    .pay-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
     .success-box {
@@ -435,7 +521,8 @@
         padding: 20px;
       }
 
-      .summary {
+      .summary,
+      .pay-row {
         grid-template-columns: 1fr;
       }
 
@@ -524,16 +611,65 @@
               <div class="step-number">1</div>
               <div class="step-label">Validando número Telcel</div>
             </div>
+
             <div class="step" id="step1">
               <div class="step-number">2</div>
               <div class="step-label">Preparando solicitud</div>
             </div>
+
             <div class="step" id="step2">
               <div class="step-number">3</div>
-              <div class="step-label">Procesando recarga</div>
+              <div class="step-label">Método de pago</div>
+
+              <div id="paymentBox" class="payment-box hidden">
+                <div class="payment-head">
+                  <div class="payment-icon">💳</div>
+                  <h4>Pago seguro con tarjeta</h4>
+                </div>
+
+                <p>
+                  Te recomendamos usar tu <strong>tarjeta digital</strong> para mayor seguridad y para reducir riesgos de fraude.
+                </p>
+
+                <p>
+                  En algunas operaciones, tu banco puede solicitar una
+                  <strong>verificación bancaria segura adicional</strong> para confirmar el pago.
+                </p>
+
+                <div class="pay-grid">
+                  <div class="pay-field">
+                    <small>Número de tarjeta</small>
+                    <span>•••• •••• •••• 4242</span>
+                  </div>
+
+                  <div class="pay-row">
+                    <div class="pay-field">
+                      <small>Vencimiento</small>
+                      <span>MM / AA</span>
+                    </div>
+                    <div class="pay-field">
+                      <small>CVV</small>
+                      <span>•••</span>
+                    </div>
+                  </div>
+
+                  <div class="pay-field">
+                    <small>Nombre del titular</small>
+                    <span>Como aparece en tu tarjeta</span>
+                  </div>
+
+                  <button id="payNowBtn" class="btn-dark">Pagar ahora</button>
+                </div>
+              </div>
             </div>
+
             <div class="step" id="step3">
               <div class="step-number">4</div>
+              <div class="step-label">Procesando recarga</div>
+            </div>
+
+            <div class="step" id="step4">
+              <div class="step-number">5</div>
               <div class="step-label">Confirmando operación</div>
             </div>
           </div>
@@ -567,13 +703,13 @@
       <div class="side-card">
         <div class="mini">
           <h4>Experiencia de confianza</h4>
-          <p>Ahora el usuario ya ve un flujo visual real con estados de proceso y confirmación.</p>
-          <p>Esto hace que el servicio se sienta mucho más profesional.</p>
+          <p>Ahora el usuario ya ve un método de pago visual integrado dentro del proceso.</p>
+          <p>La experiencia se siente mucho más cercana a un servicio automatizado real.</p>
         </div>
 
         <div class="mini">
           <h4>Siguiente mejora</h4>
-          <p>En la Fase 3 montamos el bloque de método de pago con estilo premium y leyendas de seguridad.</p>
+          <p>En la Fase 4 conectamos esta experiencia con el backend para guardar solicitudes y generar el ID de operación.</p>
         </div>
       </div>
     </section>
@@ -583,10 +719,12 @@
     const options = document.querySelectorAll('.option');
     const phoneInput = document.getElementById('phoneInput');
     const startBtn = document.getElementById('startBtn');
+    const payNowBtn = document.getElementById('payNowBtn');
 
     const formView = document.getElementById('formView');
     const processingView = document.getElementById('processingView');
     const successView = document.getElementById('successView');
+    const paymentBox = document.getElementById('paymentBox');
 
     const progressBar = document.getElementById('progressBar');
     const progressText = document.getElementById('progressText');
@@ -599,14 +737,17 @@
 
     let selectedOption = null;
     let progressInterval = null;
-    let stepInterval = null;
-    let finalTimeout = null;
+    let paymentWaitTimeout = null;
+    let finishTimeout = null;
+    let currentStep = 0;
+    let progress = 10;
 
     const steps = [
       document.getElementById('step0'),
       document.getElementById('step1'),
       document.getElementById('step2'),
       document.getElementById('step3'),
+      document.getElementById('step4'),
     ];
 
     phoneInput.addEventListener('input', () => {
@@ -629,6 +770,79 @@
         step.classList.remove('active', 'done');
         step.querySelector('.step-number').textContent = index + 1;
       });
+      paymentBox.classList.add('hidden');
+    }
+
+    function setStepState(index, state) {
+      const step = steps[index];
+      step.classList.remove('active', 'done');
+
+      if (state === 'active') {
+        step.classList.add('active');
+        step.querySelector('.step-number').textContent = index + 1;
+      }
+
+      if (state === 'done') {
+        step.classList.add('done');
+        step.querySelector('.step-number').textContent = '✓';
+      }
+    }
+
+    function updateProgress(value) {
+      progress = value;
+      progressBar.style.width = progress + '%';
+      progressText.textContent = progress + '%';
+    }
+
+    function startAutoProgress() {
+      clearInterval(progressInterval);
+      progressInterval = setInterval(() => {
+        if (progress < 92) {
+          updateProgress(progress + 1);
+        }
+      }, 180);
+    }
+
+    function moveToPaymentStep() {
+      setStepState(1, 'done');
+      currentStep = 2;
+      setStepState(2, 'active');
+      paymentBox.classList.remove('hidden');
+    }
+
+    function finishProcess() {
+      clearInterval(progressInterval);
+
+      setStepState(2, 'done');
+      setStepState(3, 'done');
+      setStepState(4, 'done');
+
+      updateProgress(100);
+
+      setTimeout(() => {
+        processingView.classList.add('hidden');
+        successView.classList.remove('hidden');
+      }, 700);
+    }
+
+    function continueAfterPayment() {
+      paymentBox.classList.add('hidden');
+      setStepState(2, 'done');
+
+      currentStep = 3;
+      setStepState(3, 'active');
+      updateProgress(78);
+
+      finishTimeout = setTimeout(() => {
+        setStepState(3, 'done');
+        currentStep = 4;
+        setStepState(4, 'active');
+        updateProgress(92);
+
+        setTimeout(() => {
+          finishProcess();
+        }, 3500);
+      }, 3500);
     }
 
     function startProcess() {
@@ -651,72 +865,43 @@
       summaryPhone.textContent = phone;
       summaryProduct.textContent = selectedOption.label + ' · ' + selectedOption.type;
 
-      let progress = 10;
-      let activeStep = 0;
-
       resetSteps();
-      steps[0].classList.add('active');
+      currentStep = 0;
+      updateProgress(10);
+      setStepState(0, 'active');
 
-      progressBar.style.width = progress + '%';
-      progressText.textContent = progress + '%';
+      startAutoProgress();
 
-      progressInterval = setInterval(() => {
-        if (progress < 92) {
-          progress += 1;
-          progressBar.style.width = progress + '%';
-          progressText.textContent = progress + '%';
-        }
-      }, 180);
-
-      stepInterval = setInterval(() => {
-        if (activeStep < steps.length - 1) {
-          steps[activeStep].classList.remove('active');
-          steps[activeStep].classList.add('done');
-          steps[activeStep].querySelector('.step-number').textContent = '✓';
-          activeStep += 1;
-          steps[activeStep].classList.add('active');
-        }
-      }, 4000);
-
-      finalTimeout = setTimeout(() => {
-        clearInterval(progressInterval);
-        clearInterval(stepInterval);
-
-        steps.forEach(step => {
-          step.classList.remove('active');
-          step.classList.add('done');
-          step.querySelector('.step-number').textContent = '✓';
-        });
-
-        progressBar.style.width = '100%';
-        progressText.textContent = '100%';
+      paymentWaitTimeout = setTimeout(() => {
+        setStepState(0, 'done');
+        currentStep = 1;
+        setStepState(1, 'active');
 
         setTimeout(() => {
-          processingView.classList.add('hidden');
-          successView.classList.remove('hidden');
-        }, 700);
-      }, 16000);
+          moveToPaymentStep();
+        }, 3000);
+      }, 3000);
     }
 
     function resetAll() {
       clearInterval(progressInterval);
-      clearInterval(stepInterval);
-      clearTimeout(finalTimeout);
+      clearTimeout(paymentWaitTimeout);
+      clearTimeout(finishTimeout);
 
       phoneInput.value = '';
       selectedOption = null;
       options.forEach(o => o.classList.remove('active'));
+
       resetSteps();
+      updateProgress(10);
 
       processingView.classList.add('hidden');
       successView.classList.add('hidden');
       formView.classList.remove('hidden');
-
-      progressBar.style.width = '10%';
-      progressText.textContent = '10%';
     }
 
     startBtn.addEventListener('click', startProcess);
+    payNowBtn.addEventListener('click', continueAfterPayment);
     restartBtn.addEventListener('click', resetAll);
     backBtn.addEventListener('click', resetAll);
   </script>
