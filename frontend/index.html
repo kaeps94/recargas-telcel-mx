@@ -1,19 +1,295 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Recargas Telcel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, #0b4dbb 0%, #1565d8 28%, #f4f7fb 28%, #f4f7fb 100%);
+      color: #0f172a;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+
+    .hero {
+      color: white;
+      padding: 30px 0 40px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: 44px;
+      line-height: 1.1;
+      margin-bottom: 14px;
+      max-width: 700px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #dbeafe;
+      max-width: 700px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      margin-top: 30px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(17, 24, 39, 0.08);
+    }
+
+    .card h2 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .card p.desc {
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #334155;
+    }
+
+    input {
+      width: 100%;
+      height: 50px;
+      border: 1px solid #cbd5e1;
+      border-radius: 14px;
+      padding: 0 16px;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .help {
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      gap: 10px;
+    }
+
+    .section-title h3 {
+      font-size: 16px;
+    }
+
+    .pill {
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 12px;
+      padding: 7px 12px;
+      border-radius: 999px;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .option {
+      border: 1px solid #dbe3ee;
+      border-radius: 18px;
+      padding: 16px;
+      background: white;
+      transition: 0.2s ease;
+      cursor: pointer;
+    }
+
+    .option:hover {
+      border-color: #2563eb;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.08);
+    }
+
+    .option strong {
+      display: block;
+      font-size: 18px;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .option span {
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .btn {
+      width: 100%;
+      height: 52px;
+      border: none;
+      background: #0b4dbb;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 14px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #0a43a1;
+    }
+
+    .side-card {
+      display: grid;
+      gap: 18px;
+    }
+
+    .mini {
+      background: white;
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 20px 40px rgba(17, 24, 39, 0.08);
+    }
+
+    .mini h4 {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    .mini p {
+      color: #64748b;
+      line-height: 1.6;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 34px;
+      }
+
+      .options {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .options {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero h1 {
+        font-size: 28px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .card, .mini {
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
-<body style="font-family: Arial; text-align:center; padding:50px;">
+<body>
+  <div class="container">
+    <section class="hero">
+      <div class="badge">Servicio digital · Telcel</div>
+      <h1>Recargas Telcel rápidas y seguras</h1>
+      <p>
+        Ingresa tu número y elige entre recarga de saldo o paquete sin límites
+        con una experiencia visual más profesional y confiable.
+      </p>
+    </section>
 
-  <h1>Recargas Telcel</h1>
-  <p>Plataforma en construcción 🚀</p>
+    <section class="grid">
+      <div class="card">
+        <h2>Solicita tu recarga</h2>
+        <p class="desc">Captura tu número y selecciona el tipo de recarga que necesitas.</p>
 
-  <input type="text" placeholder="Número Telcel" /><br><br>
+        <label>Número Telcel</label>
+        <input type="text" placeholder="Ingresa 10 dígitos" maxlength="10" />
+        <div class="help">Ejemplo: 5547123456</div>
 
-  <button>Recargar $100</button>
-  <button>Recargar $200</button>
+        <div class="section-title">
+          <h3>Recarga Saldo Telcel</h3>
+          <div class="pill">Montos disponibles</div>
+        </div>
 
+        <div class="options">
+          <div class="option"><strong>$50</strong><span>Recarga Saldo</span></div>
+          <div class="option"><strong>$100</strong><span>Recarga Saldo</span></div>
+          <div class="option"><strong>$200</strong><span>Recarga Saldo</span></div>
+          <div class="option"><strong>$300</strong><span>Recarga Saldo</span></div>
+          <div class="option"><strong>$500</strong><span>Recarga Saldo</span></div>
+        </div>
+
+        <div class="section-title">
+          <h3>Paquete Sin Límites</h3>
+          <div class="pill">Opciones Telcel</div>
+        </div>
+
+        <div class="options">
+          <div class="option"><strong>SL100</strong><span>Paquete Sin Límites</span></div>
+          <div class="option"><strong>SL200</strong><span>Paquete Sin Límites</span></div>
+          <div class="option"><strong>SL300</strong><span>Paquete Sin Límites</span></div>
+          <div class="option"><strong>SL500</strong><span>Paquete Sin Límites</span></div>
+          <div class="option"><strong>SL1200</strong><span>Paquete Sin Límites</span></div>
+          <div class="option"><strong>SL2600</strong><span>Paquete Sin Límites</span></div>
+        </div>
+
+        <button class="btn">Iniciar recarga</button>
+      </div>
+
+      <div class="side-card">
+        <div class="mini">
+          <h4>Experiencia de confianza</h4>
+          <p>Selecciona tu recarga de forma rápida y visualmente clara.</p>
+          <p>El siguiente paso será agregar el flujo de procesamiento y confirmación.</p>
+        </div>
+
+        <div class="mini">
+          <h4>Siguiente mejora</h4>
+          <p>Después de esta versión vamos a montar el loader animado, el proceso de pago y la confirmación de éxito.</p>
+        </div>
+      </div>
+    </section>
+  </div>
 </body>
 </html>
